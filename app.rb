@@ -25,16 +25,15 @@ class HangpersonApp < Sinatra::Base
     erb :new
   end
   
-  get '/create' do
-    redirect 'new'
-  end
-  
   post '/create' do
     # NOTE: don't change next line - it's needed by autograder!
     word = params[:word] || HangpersonGame.get_random_word
     # NOTE: don't change previous line - it's needed by autograder!
 
     @game = HangpersonGame.new(word)
+    session[:word] = word
+    session[:guesses] = ""
+    session[:wrong_guesses] = ""
     redirect '/show'
   end
   
@@ -44,8 +43,10 @@ class HangpersonApp < Sinatra::Base
   post '/guess' do
     letter = params[:guess].to_s[0]
     ### YOUR CODE HERE ###
-    if !@game.guess(letter)
-      flash[:message] = "You have already used that letter."
+    begin
+      if !@game.guess(letter)
+        flash[:message] = "You have already used that letter."
+      end
     end
     redirect '/show'
   end
