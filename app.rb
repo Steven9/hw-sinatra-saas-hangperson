@@ -21,10 +21,6 @@ class HangpersonApp < Sinatra::Base
     redirect '/new'
   end
   
-  post '/new' do
-    "Hello World"
-  end
-  
   get '/new' do
     erb :new
   end
@@ -44,6 +40,9 @@ class HangpersonApp < Sinatra::Base
   post '/guess' do
     letter = params[:guess].to_s[0]
     ### YOUR CODE HERE ###
+    if !@game.guess(letter)
+      flash[:message] = "You have already used that letter."
+    end
     redirect '/show'
   end
   
