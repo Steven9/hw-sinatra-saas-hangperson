@@ -25,6 +25,10 @@ class HangpersonApp < Sinatra::Base
     erb :new
   end
   
+  get '/create' do
+    redirect 'new'
+  end
+  
   post '/create' do
     # NOTE: don't change next line - it's needed by autograder!
     word = params[:word] || HangpersonGame.get_random_word
